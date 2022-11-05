@@ -25,7 +25,7 @@ function printGameOver() {
     '3개의 숫자를 모두 맞히셨습니다! 게임 종료\n게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.\n',
     (answer) => {
       const { restart, close } = SIGN;
-      if (parseInt(answer) === restart) playRoutine(randomGoalNumber());
+      if (parseInt(answer) === restart) return playRoutine(randomGoalNumber());
       if (parseInt(answer) === close) Console.close();
       else throw new Error('입력값 오류');
     }
@@ -65,3 +65,7 @@ function matchNumbers(goal, subject) {
 function setMatchResult(map, match_status) {
   return map.set(match_status, map.get(match_status) + 1 || 1);
 }
+
+module.exports = {
+  playRoutine,
+};
