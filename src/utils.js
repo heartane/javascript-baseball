@@ -16,7 +16,24 @@ const validateInput = function (inputStr) {
   return inputStr.match('\\d{3}') && new Set(inputStr).size === 3;
 };
 
+/**
+ *
+ * @param {Map<string, number>} result 스트라이크와 볼의 수 매칭 결과
+ * @returns {string} 출력값으로 반환할 게임 결과 문자열
+ */
+const convertToStr = function (result) {
+  const entries = [...result.entries()];
+  const sortedByStatus = entries.sort((a, b) => {
+    if (a[0] < b[0]) return -1;
+  });
+
+  return sortedByStatus
+    .reduce((result, [status, num]) => (result += `${num}${status} `), '')
+    .trimRight();
+};
+
 module.exports = {
   randomGoalNumber,
   validateInput,
+  convertToStr,
 };
