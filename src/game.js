@@ -1,0 +1,35 @@
+const { MATCH_STATUS } = require('./config');
+
+/**
+ *
+ * @param {number[]} goal 컴퓨터가 생성한 임의의 세자리 수
+ * @param {string} subject 유저가 제시한 임의의 세자리 수
+ * @returns {Map<string, number> | undefined} 스트라이크와 볼의 수
+ */
+function matchNumbers(goal, subject) {
+  const SET_GOAL = new Set(goal);
+  const MATCH_RESULT = new Map();
+
+  const { exact, has } = MATCH_STATUS;
+
+  for (let i = 0; i < subject.length; i++) {
+    let TARGET_NUMBER = parseInt(subject[i]);
+
+    if (!SET_GOAL.has(TARGET_NUMBER)) continue;
+
+    TARGET_NUMBER === goal[i]
+      ? setMatchResult(MATCH_RESULT, exact)
+      : setMatchResult(MATCH_RESULT, has);
+  }
+  return MATCH_RESULT.size ? MATCH_RESULT : undefined;
+}
+
+/**
+ *
+ * @param {Map<string, number>} map 숫자 매칭 결과를 가진 맵 자료구조
+ * @param {string} status 스트라이크 혹은 볼
+ * @returns {Map<string, number>} status 키값을 증가시킨 결과물
+ */
+function setMatchResult(map, match_status) {
+  return map.set(match_status, map.get(match_status) + 1 || 1);
+}
