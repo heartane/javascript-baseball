@@ -1,4 +1,36 @@
-const { MATCH_STATUS } = require('./config');
+const { Console } = require('@woowacourse/mission-utils');
+const { MATCH_STATUS, SIGN } = require('./config');
+const { validateInput, convertToStr, randomGoalNumber } = require('./utils');
+
+const playRoutine = function (goal_number) {
+  console.log(goal_number);
+
+  Console.readLine('숫자를 입력해주세요 : ', (answer) => {
+    if (!validateInput(answer)) throw new Error('입력값 오류');
+
+    const comparedResult = matchNumbers(goal_number, answer);
+
+    const { goal, notFound } = MATCH_STATUS;
+    let match_result;
+    if (!comparedResult) match_result = notFound;
+    else match_result = convertToStr(comparedResult);
+
+    Console.print(match_result);
+    match_result === goal ? printGameOver() : playRoutine(goal_number);
+  });
+};
+
+function printGameOver() {
+  Console.readLine(
+    '3개의 숫자를 모두 맞히셨습니다! 게임 종료\n게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.\n',
+    (answer) => {
+      const { restart, close } = SIGN;
+      if (parseInt(answer) === restart) playRoutine(randomGoalNumber());
+      if (parseInt(answer) === close) Console.close();
+      else throw new Error('입력값 오류');
+    }
+  );
+}
 
 /**
  *
