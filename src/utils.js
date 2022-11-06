@@ -1,5 +1,5 @@
 const { Random } = require('@woowacourse/mission-utils');
-const { RANDOM_NUMBER } = require('./config');
+const { RANDOM_NUMBER, MATCH_STATUS } = require('./config');
 
 const randomGoalNumber = function () {
   const { from, to, pick } = RANDOM_NUMBER;
@@ -8,11 +8,16 @@ const randomGoalNumber = function () {
 
 /**
  * 유저 입력값의 유효성 체크 함수
- * 오로지 숫자로 이루어진 중복없는 세자리 수
  * @param {string} inputStr 유저가 제시한 임의의 세자리 수, ex.'245'
+ * @param {boolean} isTerminationCode 종료 코드인지 확인하기 위한 플래그
  * @returns {boolean} 유효성 검사 결과
  */
-const validateInput = function (inputStr) {
+const validateInput = function (inputStr, isTerminationCode) {
+  if (isTerminationCode) {
+    const { restart, close } = SIGN;
+    const INPUT = parseInt(inputStr, 10);
+    return INPUT === restart || INPUT === close;
+  }
   return inputStr.match('\\d{3}') && new Set(inputStr).size === 3;
 };
 
