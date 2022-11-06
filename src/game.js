@@ -42,15 +42,13 @@ function interactiveMode(lines, flag = false) {
 }
 
 function printGameOver() {
-  const RESPONSE = interactiveMode(LINES.final, true)
-    .then((res) => parseInt(res))
-    .catch((err) => {
-      throw err;
-    });
-
-  const { restart, close } = SIGN;
-  if (RESPONSE === restart) return playRoutine(randomGoalNumber());
-  if (RESPONSE === close) Console.close();
+  return interactiveMode(LINES.final, true).then((res) => {
+    const RESPONSE = parseInt(res);
+    const SIGN_RESTART = 1;
+    const SIGN_CLOSE = 2;
+    if (RESPONSE === SIGN_RESTART) return playRoutine(randomGoalNumber());
+    if (RESPONSE === SIGN_CLOSE) Console.close();
+  });
 }
 
 /**
@@ -63,7 +61,8 @@ function matchNumbers(goal, subject) {
   const SET_GOAL = new Set(goal);
   const MATCH_RESULT = new Map();
 
-  const { exact, has } = MATCH_STATUS;
+  const MATCH_EXACT = '스트라이크';
+  const MATCH_HAS = '볼';
 
   for (let i = 0; i < subject.length; i++) {
     let TARGET_NUMBER = parseInt(subject[i]);
@@ -71,8 +70,8 @@ function matchNumbers(goal, subject) {
     if (!SET_GOAL.has(TARGET_NUMBER)) continue;
 
     TARGET_NUMBER === goal[i]
-      ? setMatchResult(MATCH_RESULT, exact)
-      : setMatchResult(MATCH_RESULT, has);
+      ? setMatchResult(MATCH_RESULT, MATCH_EXACT)
+      : setMatchResult(MATCH_RESULT, MATCH_HAS);
   }
   return MATCH_RESULT.size ? MATCH_RESULT : undefined;
 }
@@ -89,4 +88,6 @@ function setMatchResult(map, match_status) {
 
 module.exports = {
   playRoutine,
+  interactiveMode,
+  matchNumbers,
 };

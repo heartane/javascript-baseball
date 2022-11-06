@@ -14,9 +14,11 @@ const randomGoalNumber = function () {
  */
 const validateInput = function (inputStr, isTerminationCode) {
   if (isTerminationCode) {
-    const { restart, close } = SIGN;
+    const RESTART_CODE = 1;
+    const CLOSE_CODE = 2;
     const INPUT = parseInt(inputStr, 10);
-    return INPUT === restart || INPUT === close;
+
+    return INPUT === RESTART_CODE || INPUT === CLOSE_CODE;
   }
   return inputStr.match('\\d{3}') && new Set(inputStr).size === 3;
 };

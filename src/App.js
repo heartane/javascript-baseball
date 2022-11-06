@@ -7,9 +7,7 @@ class App {
     Console.print('숫자 야구 게임을 시작합니다.');
 
     const GOAL_NUMBER = randomGoalNumber();
-    return playRoutine(GOAL_NUMBER).catch((err) => {
-      throw err;
-    });
+    return playRoutine(GOAL_NUMBER);
   }
 }
 
