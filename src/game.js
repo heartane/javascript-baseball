@@ -8,15 +8,14 @@ const playRoutine = function (goal_number) {
   Console.readLine('숫자를 입력해주세요 : ', (answer) => {
     if (!validateInput(answer)) throw new Error('입력값 오류');
 
-    const comparedResult = matchNumbers(goal_number, answer);
+    const COMPARED_RESULT = matchNumbers(goal_number, answer);
+    const MATCH_RESULT = convertToStr(COMPARED_RESULT);
 
-    const { goal, notFound } = MATCH_STATUS;
-    let match_result;
-    if (!comparedResult) match_result = notFound;
-    else match_result = convertToStr(comparedResult);
+    Console.print(MATCH_RESULT);
 
-    Console.print(match_result);
-    match_result === goal ? printGameOver() : playRoutine(goal_number);
+    MATCH_RESULT === MATCH_STATUS.goal
+      ? printGameOver()
+      : playRoutine(goal_number);
   });
 };
 

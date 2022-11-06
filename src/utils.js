@@ -18,10 +18,12 @@ const validateInput = function (inputStr) {
 
 /**
  *
- * @param {Map<string, number>} result 스트라이크와 볼의 수 매칭 결과
+ * @param {Map<string, number> | undefined} result 스트라이크와 볼의 수 매칭 결과
  * @returns {string} 출력값으로 반환할 게임 결과 문자열
  */
 const convertToStr = function (result) {
+  if (!result) return MATCH_STATUS.notFound;
+
   const entries = [...result.entries()];
   const sortedByStatus = entries.sort((a, b) => {
     if (a[0] < b[0]) return -1;
@@ -29,7 +31,7 @@ const convertToStr = function (result) {
 
   return sortedByStatus
     .reduce((result, [status, num]) => (result += `${num}${status} `), '')
-    .trimRight();
+    .trimEnd();
 };
 
 module.exports = {
